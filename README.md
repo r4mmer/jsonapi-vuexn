@@ -1,4 +1,4 @@
-# jsonapi-vuex
+# jsonapi-vuexn
 
 [![Build Status](https://travis-ci.com/mrichar1/jsonapi-vuex.svg?branch=master)](https://travis-ci.com/mrichar1/jsonapi-vuex)
 
@@ -9,6 +9,8 @@ This project was inspired by https://codingitwrong.com/2018/06/18/vuex-jsonapi-a
 ## Features
 
 * Creates a [Vuex](https://vuex.vuejs.org/) module to store API data.
+* Exposes functions to create a vuex module with nuxt
+* Enable token based authentication
 * High-level methods to wrap common RESTful operations (GET, POST, PUT, DELETE).
 * Restructures/normalizes data, making record handling easier.
 * Makes fetching related objects easy.
@@ -24,7 +26,7 @@ Having created a Vue project, simply add the module to your store.js, passing it
 import Vue from 'vue';
 import Vuex from 'vuex';
 import axios from 'axios';
-import { jsonapiModule } from 'jsonapi-vuex';
+import { jsonapiModule } from 'jsonapi-vuexn';
 
 Vue.use(Vuex)
 

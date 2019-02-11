@@ -35,7 +35,7 @@
     "vue-template-compiler": "^2.5.17",
     "webpack": "^4.20.2"
   },
-  "name": "jsonapi-vuex",
+  "name": "jsonapi-vuexn",
   "version": "0.0.15",
   "description": "Access restructured JSONAPI data from a Vuex Store.",
   "keywords": [
@@ -51,15 +51,15 @@
     "index.js",
     "src/"
   ],
-  "author": "Matthew Richardson <M.Richardson@ed.ac.uk>",
-  "homepage": "https://github.com/mrichar1/jsonapi-vuex.git",
+  "author": "André Carneiro <acarneiro.dev@gmail.com>",
+  "homepage": "https://github.com/r4mmer/jsonapi-vuexn.git",
   "license": "AGPL-3.0-or-later",
   "repository": {
     "type": "git",
-    "url": "https://github.com/mrichar1/jsonapi-vuex.git"
+    "url": "https://github.com/r4mmer/vuex-jsonapi-vuexn.git"
   },
   "bugs": {
-    "url": "https://github.com/mrichar1/jsonapi-vuex/issues"
+    "url": "https://github.com/r4mmer/jsonapi-vuexn/issues"
   },
   "scripts": {
     "test": "npm run unit -- --single-run && npm run e2e",

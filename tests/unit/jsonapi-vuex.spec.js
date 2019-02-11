@@ -1,6 +1,6 @@
 import chai, { expect } from 'chai';
 import chaiAsPromised from 'chai-as-promised';
-import { _testing, jsonapiModule } from '../../src/jsonapi-vuex.js';
+import { _testing, jsonapiModule } from '../../src/jsonapi-vuexn.js';
 import axios from 'axios';
 import MockAdapter from 'axios-mock-adapter';
 import sinonChai from 'sinon-chai';
@@ -330,7 +330,7 @@ beforeEach(() =>  {
 
 })
 
-describe("jsonapi-vuex tests", () =>  {
+describe("jsonapi-vuexn tests", () =>  {
 
   it("should export jsonapiModule", () =>  {
     expect(jsonapiModule).to.exist;

@@ -17,7 +17,7 @@ let jvConfig = {
   // Follow relationships 'data' entries (from store)
   'follow_relationships_data': true,
   // Preserve API response json in return data
-  'preserve_json': false
+  'preserve_json': true
 }
 
 const jvtag = jvConfig['jvtag']
@@ -50,6 +50,9 @@ const mutations = (api) => {  // eslint-disable-line no-unused-vars
       const store_record = normToStore(new_record)
       const old_record = getNested(state, [ type, id ])
       Vue.set(state[type], id, merge(old_record, store_record[type][id]))
+    },
+    update_token: (state, token) => {
+      Vue.set(state['_meta'], 'token', token);
     }
   }
 }
@@ -62,6 +65,8 @@ const actions = (api, conf = {}) => {
       const path = getTypeId(data).join('/')
       // https://github.com/axios/axios/issues/362
       config['data'] = config['data'] || {}
+      config['headers'] = config['headers'] || {}
+      config['headers']['authorization'] = context.getters.auth_token
       return api.get(path, config)
         .then((results) => {
           // Process included records
@@ -127,7 +132,7 @@ const actions = (api, conf = {}) => {
           if (!(typeof rel_links === 'string')) {
             rel_links = rel_links['href']
           }
-          const results = await api.get(rel_links, {})
+          const results = await api.get(rel_links, {headers: {authorization: context.getters.auth_token}})
           const res_data = jsonapiToNorm(results.data.data)
           const rel_type = res_data[jvtag]['type']
           const rel_id = res_data[jvtag]['id']
@@ -143,6 +148,8 @@ const actions = (api, conf = {}) => {
     post: (context, args) => {
       let [ data, config ] = unpackArgs(args)
       const type = getTypeId(data)[0]
+      config['headers'] = config['headers'] || {}
+      config['headers']['authorization'] = context.getters.auth_token
       return api.post(type, normToJsonapi(data), config)
         .then((results) => {
           // If the server handed back data, store it (to get id)
@@ -160,6 +167,8 @@ const actions = (api, conf = {}) => {
     patch: (context, args) => {
       const [ data, config ] = unpackArgs(args)
       const path = getTypeId(data).join('/')
+      config['headers'] = config['headers'] || {}
+      config['headers']['authorization'] = context.getters.auth_token
       return api.patch(path, normToJsonapi(data), config)
         .then((results) => {
           // If the server handed back data, store it
@@ -179,6 +188,8 @@ const actions = (api, conf = {}) => {
     delete: (context, args) => {
       const [ data, config ] = unpackArgs(args)
       const path = getTypeId(data).join('/')
+      config['headers'] = config['headers'] || {}
+      config['headers']['authorization'] = context.getters.auth_token
       return api.delete(path, config)
         .then((result) => {
           context.commit('delete_record', data)
@@ -196,6 +207,10 @@ const actions = (api, conf = {}) => {
 
 const getters = (api) => {  // eslint-disable-line no-unused-vars
   return {
+    auth_token: (state) => {
+      const token = state['_meta']['token'] || ''
+      return ['JWT', token].join(' ')
+    },
     get: (state) => (data, jsonpath) => {
       if (!data) {
         // No data arg - return whole state object
@@ -248,7 +263,7 @@ const jsonapiModule = (api, conf) => {
   return {
     namespaced: true,
 
-    state: {},
+    state: {'_meta': {'token': ''}},
 
     mutations: mutations(api, conf),
     actions: actions(api, conf),
@@ -428,5 +443,8 @@ const _testing = {
 // Export this module
 export {
   jsonapiModule,
+  mutations as gen_mutations,
+  actions as gen_actions,
+  getters as gen_getters,
   _testing
 }

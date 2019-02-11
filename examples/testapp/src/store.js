@@ -1,7 +1,7 @@
 import Vue from 'vue'
 import Vuex from 'vuex'
 import axios from 'axios';
-import { jsonapiModule } from '../../../src/jsonapi-vuex';
+import { jsonapiModule } from '../../../src/jsonapi-vuexn';
 
 
 Vue.use(Vuex)
