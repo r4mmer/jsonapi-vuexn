@@ -211,6 +211,9 @@ const getters = (api) => {  // eslint-disable-line no-unused-vars
       const token = state['_meta']['token'] || ''
       return ['JWT', token].join(' ')
     },
+    api: (state) => {
+      return api
+    },
     get: (state) => (data, jsonpath) => {
       if (!data) {
         // No data arg - return whole state object
